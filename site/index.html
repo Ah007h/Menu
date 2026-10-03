@@ -5,10 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Wabel Café Menu | منيو وابل كافي</title>
 <style>
-:root{--bg:#f3f5f7;--card:#fff;--navy:#1f4a76;--navy2:#2c6094;--ink:#17314f;--mut:#6b7f95;--line:#dbe3ea;--soft:#e4ecf4}
+:root{--bg:#f3f5f7;--card:#fff;--navy:#1f4a76;--ink:#17314f;--mut:#6b7f95;--line:#dbe3ea;--soft:#e4ecf4}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1c2b;--card:#17283b;--navy:#7fb0e0;--ink:#e8eff6;--mut:#9db0c4;--line:#27405a;--soft:#1f3550}}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:"Segoe UI",Tahoma,"Noto Naskh Arabic",Arial,sans-serif;min-height:100vh}
+body.lock{overflow:hidden}
 .hero{background:linear-gradient(160deg,#1f4a76,#2c6094);color:#fff;text-align:center;padding:calc(30px + env(safe-area-inset-top,0px)) 16px 64px;position:relative}
 .hero svg{position:absolute;bottom:-1px;left:0;width:100%;height:44px;display:block}
 .hero svg path{fill:var(--bg)}
@@ -26,7 +27,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:"Segoe UI",Tahom
 .cat{background:var(--card);border:1px solid var(--line);border-bottom:4px solid var(--navy);border-radius:18px;padding:0;cursor:pointer;overflow:hidden;text-align:center;color:var(--ink);font:inherit;box-shadow:0 4px 14px rgba(31,74,118,.08);transition:transform .15s}
 .cat:active{transform:scale(.97)}
 .ph{aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;font-size:44px;background:var(--soft);overflow:hidden}
-.ph img,.thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.ph img{width:100%;height:100%;object-fit:cover;display:block}
 .cat b{display:block;padding:10px 6px 2px;color:var(--navy);font-size:15px}
 .cat small{display:block;padding:0 6px 12px;color:var(--mut);font-size:12px}
 .top{display:flex;align-items:center;gap:10px;padding:20px 0 6px}
@@ -35,18 +36,56 @@ html[dir=rtl] .back{transform:scaleX(-1)}
 h2{margin:0;font-size:22px;color:var(--navy)}
 .banner{height:140px;border-radius:18px;overflow:hidden;margin:6px 0 4px;border-bottom:4px solid var(--navy)}
 .banner img{width:100%;height:100%;object-fit:cover;display:block}
-.item{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px;margin-top:10px}
-.thumb{width:64px;height:64px;border-radius:12px;background:var(--soft);display:flex;align-items:center;justify-content:center;font-size:30px;overflow:hidden;flex:none}
-.nm{flex:1;min-width:0}.nm b{display:block;font-size:15px}.nm span{font-size:12px;color:var(--mut)}
-.pr{background:var(--navy);color:var(--bg);font-weight:700;border-radius:8px;padding:5px 10px;font-size:14px;white-space:nowrap}
+.item{display:flex;align-items:stretch;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:10px;margin-top:12px;box-shadow:0 3px 10px rgba(31,74,118,.06)}
+.thumb{width:104px;min-height:104px;border-radius:12px;background:var(--soft);display:flex;align-items:center;justify-content:center;font-size:38px;overflow:hidden;flex:none;cursor:zoom-in;border:0;padding:0}
+.thumb.noz{cursor:default}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.nm{flex:1;min-width:0;display:flex;flex-direction:column}
+.nm b{display:block;font-size:16px;color:var(--navy)}
+.nm span{font-size:12px;color:var(--mut);margin-top:2px}
+.nm p{margin:6px 0 8px;font-size:13px;line-height:1.5;color:var(--ink);opacity:.85}
+.pr{align-self:flex-start;margin-top:auto;background:var(--navy);color:var(--bg);font-weight:700;border-radius:8px;padding:5px 12px;font-size:14px;white-space:nowrap}
 footer{background:#1f4a76;color:#fff;text-align:center;padding:34px 16px calc(24px + env(safe-area-inset-bottom,0px));position:relative;margin-top:40px;font-size:13px;line-height:1.9}
 footer svg{position:absolute;top:-1px;left:0;width:100%;height:30px;display:block;transform:rotate(180deg)}
 footer svg path{fill:var(--bg)}
 footer .l{font-size:30px;font-weight:800}
 footer small{opacity:.8}
+/* welcome */
+#welcome{position:fixed;inset:0;z-index:50;background:linear-gradient(165deg,#173d63,#2c6094);color:#fff;display:flex;align-items:center;justify-content:center;padding:24px;transition:opacity .45s,visibility .45s}
+#welcome.hide{opacity:0;visibility:hidden}
+.wbox{text-align:center;max-width:380px;width:100%;animation:up .7s ease both}
+@keyframes up{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+.wbox .logo{font-size:84px}
+.wbox .sub{font-size:14px}
+.wbox .wel{font-size:22px;font-weight:700;margin-top:6px}
+.wbox .wel2{font-size:15px;opacity:.85;margin-top:2px;letter-spacing:.08em}
+.pick{opacity:.85;font-size:13px;margin:26px 0 12px}
+.lbtn{display:block;width:100%;border:0;border-radius:16px;padding:16px;margin-top:12px;font-size:20px;font-weight:700;cursor:pointer;font-family:inherit;background:#fff;color:#1f4a76;box-shadow:0 8px 24px rgba(0,0,0,.2);transition:transform .15s}
+.lbtn:active{transform:scale(.97)}
+.lbtn.o{background:transparent;color:#fff;border:2px solid #fff}
+.wbox .tg{margin-top:26px;font-size:12px;letter-spacing:.3em;opacity:.7}
+/* lightbox */
+#lb2{position:fixed;inset:0;z-index:60;background:rgba(8,18,30,.92);display:none;align-items:center;justify-content:center;flex-direction:column;padding:20px;gap:14px}
+#lb2.on{display:flex}
+#lb2 img{max-width:100%;max-height:75vh;border-radius:16px}
+#lb2 div{color:#fff;font-weight:700;font-size:18px;text-align:center}
 </style>
 </head>
-<body>
+<body class="lock">
+<div id="welcome">
+ <div class="wbox">
+  <div class="logo">وابل</div>
+  <div class="sub">WABEL CAFÉ</div>
+  <div class="rule" style="margin:16px auto"></div>
+  <div class="wel">أهلاً وسهلاً بكم</div>
+  <div class="wel2">Welcome</div>
+  <div class="pick">اختر لغتك المفضلة · Choose your language</div>
+  <button class="lbtn" onclick="pickLang('ar')">العربية</button>
+  <button class="lbtn o" onclick="pickLang('en')">English</button>
+  <div class="tg">نكهة تعبر عنك</div>
+ </div>
+</div>
+<div id="lb2" onclick="this.classList.remove('on')"><img id="lbi" alt=""><div id="lbt"></div></div>
 <div class="hero">
 <button class="lang" id="lb"></button>
 <div class="logo">وابل</div>
@@ -64,43 +103,121 @@ footer small{opacity:.8}
 <small id="ft"></small>
 </footer>
 <script>
-// Category photos: images/categories/<id>.jpg
-// Item photos: put files in images/items/ named <categoryId>-<item-name>.jpg and list the name in ITEMPH below
-var ITEMPH=[];
+// Photos: images/categories/<id>.jpg and images/items/<categoryId>-<item-name>.jpg
+var ITEMPH=["hot-americano", "hot-caramel-latte", "hot-cortado", "hot-latte", "hot-macchiato", "hot-matcha-latte", "hot-mocha", "hot-spanish-latte", "hot-cappuccino", "hot-espresso", "hot-flat-white", "hot-hot-chocolate", "turk-coffee-turkish", "turk-milk-with-coffee-turkish", "turk-french-coffee-with-hazelnut", "saudi-cup-coffee-saudi", "saudi-saudi-coffee-pot", "tea-english-tea", "tea-green-tea", "tea-red-tea", "icet-hibiscus", "icet-passion-fruit-ice-tea", "icet-peach-ice-tea", "juice-lemon-w-mint", "juice-mango", "juice-mango-w-milk", "juice-pineapple", "juice-strawberry", "juice-strawberry-w-milk", "moh-blue-berry", "moh-mix-berry", "moh-passion-karkade", "moh-pomegranate", "moh-red-berry", "moh-strawberry", "moh-water-melon", "moh-passion-fruit", "ital-classic-matcha", "ital-frappuccino-caramel", "ital-frappuccino-classic", "ital-frappuccino-mocha", "ital-frappuccino-white-mocha", "ital-ice-americano", "ital-ice-caramel-latte", "ital-ice-latte", "ital-ice-mocha-latte", "ital-ice-spanish-latte", "ital-matcha-raspberry", "ital-matcha-strawberry", "ital-matcha-blueberry", "soft-code-red", "soft-mirinda", "soft-pepsi", "soft-seven-up", "soft-diet-pepsi", "soft-water", "spec-coffee-of-the-day", "spec-v60-brazil", "spec-v60-colombia", "spec-v60-ethiopia", "dess-cake-becan", "dess-cake-cheese", "dess-cake-date", "dess-cake-dolce", "dess-cake-berry-coco", "dess-matelda-chocolate-cake", "sand-croissant", "sand-fajita-sandwich", "sand-halloumi-sandwich", "sand-smoked-turkey-sandwich", "sand-three-cheese-sandwich", "sand-tuna-sandwich", "sand-mix-cheese-yellow"];
+
 var C=[
-{id:"hot",e:"☕",en:"Hot Drinks",ar:"المشروبات الساخنة",i:[["Espresso","إسبريسو",10,"☕"],["Americano","أمريكانو",10,"☕"],["Macchiato","ماكياتو",11,"☕"],["Cortado","كورتادو",11,"☕"],["Flat White","فلات وايت",12,"☕"],["Cappuccino","كابتشينو",12,"☕"],["Latte","لاتيه",12,"🥛"],["Spanish Latte","سبانيش لاتيه",14,"🥛"],["Caramel Latte","كراميل لاتيه",14,"🍮"],["Mocha","موكا",18,"🍫"],["Hot Chocolate","هوت شوكليت",17,"🍫"],["Matcha Latte","ماتشا لاتيه",17,"🍵"]]},
-{id:"ital",e:"🧊",en:"Italian Coffee",ar:"القهوة الإيطالية",i:[["Ice Americano","آيس أمريكانو",10,"🧊"],["Ice Latte","آيس لاتيه",13,"🧊"],["Ice Spanish Latte","آيس سبانيش لاتيه",14,"🧊"],["Ice Caramel Latte","آيس كراميل لاتيه",14,"🍮"],["Ice Shaken White Mocha","آيس موكا وايت",18,"🧊"],["Ice Mocha Latte","آيس موكا لاتيه",18,"🍫"],["Frappuccino Classic","فرابوتشينو كلاسيك",18,"🥤"],["Frappuccino Caramel","فرابوتشينو كراميل",20,"🥤"],["Frappuccino Mocha","فرابوتشينو موكا",20,"🥤"],["Frappuccino White Mocha","فرابوتشينو الموكا البيضاء",22,"🥤"],["Classic Matcha","ماتشا كلاسيك",17,"🍵"],["Matcha Strawberry","ماتشا الفراولة",20,"🍓"],["Matcha Raspberry","ماتشا التوت الأحمر",20,"🍵"],["Matcha Blueberry","ماتشا التوت الأزرق",20,"🫐"]]},
-{id:"spec",e:"🫗",en:"Speciality Coffee",ar:"القهوة المختصة",i:[["Coffee Of The Day","قهوة اليوم",9,"☕"],["V60 Ethiopia","V60 أثيوبي",14,"☕"],["V60 Colombia","V60 كولومبي",14,"☕"],["V60 Brazil","V60 برازيلي",14,"☕"]]},
-{id:"turk",e:"🫖",en:"Turkish Coffee",ar:"القهوة التركية",i:[["Coffee Turkish","قهوة تركية",10,"🫖"],["Milk With Coffee Turkish","القهوة التركية مع الحليب",11,"🫖"],["French Coffee With Hazelnut","القهوة فرنسية بالبندق",13,"🌰"]]},
-{id:"saudi",e:"🏺",en:"Saudi Coffee",ar:"القهوة السعودية",i:[["Cup Coffee Saudi","كاسة قهوة سعودي",10,"☕"],["Saudi Coffee Pot","دلة سعودية",25,"🫖"]]},
-{id:"tea",e:"🍃",en:"Tea",ar:"الشاي",i:[["Red Tea","شاي أحمر",5,"🍵"],["Green Tea","شاي أخضر",5,"🍃"],["English Tea","شاي إنجليزي",6,"🫖"]]},
-{id:"icet",e:"🥤",en:"Ice Tea",ar:"آيس تي",i:[["Hibiscus","الكركديه",5,"🌺"],["Peach Ice Tea","آيس تي خوخ",12,"🍑"],["Passion Fruit Ice Tea","آيس تي باشن فروت",12,"🥤"]]},
-{id:"moh",e:"🌿",en:"Mohito",ar:"موهيتو",i:[["Strawberry","فراولة",10,"🍓"],["Water Melon","بطيخ",10,"🍉"],["Pomegranate","رمان",12,"🍷"],["Passion Fruit","باشن فروت",12,"🍹"],["Passion Karkade","كركديه باشن فروت",10,"🌺"],["Red Berry","توت أحمر",12,"🍒"],["Blue Berry","توت أزرق",12,"🫐"],["Mix Berry","مكس توت",12,"🍇"]]},
-{id:"juice",e:"🍊",en:"Nature Juice",ar:"العصائر الطبيعية",i:[["Lemon W Mint","ليمون بالنعناع",14,"🍋"],["Strawberry","فراولة",15,"🍓"],["Mango","مانجو",15,"🥭"],["Pineapple","أناناس",15,"🍍"],["Strawberry W Milk","فراولة بالحليب",17,"🍓"],["Mango W Milk","مانجو بالحليب",17,"🥭"]]},
-{id:"soft",e:"🥫",en:"Soft Drinks",ar:"المشروبات الغازية",i:[["Pepsi","بيبسي",5,"🥤"],["Diet Pepsi","بيبسي دايت",5,"🥤"],["Seven Up","سفن",5,"🥤"],["Mirinda","ميرندا",5,"🍊"],["Code Red","كود رد",9,"🥫"],["Water","ماء",1,"💧"]]},
-{id:"sand",e:"🥐",en:"Sandwiches & Croissant",ar:"الساندويشات والكرواسون",i:[["Croissant","الكرواسون",9,"🥐"],["Tuna Sandwich","ساندويش تونة",12,"🥪"],["Halloumi Sandwich","ساندويش الحلوم",12,"🥪"],["Fajita Sandwich","ساندويش الفاهيتا",12,"🌯"],["Three Cheese Sandwich","ساندويش الثلاث جبن",12,"🧀"],["Smoked Turkey Sandwich","ساندويش التركي المدخن",12,"🥪"],["Mix Cheese Yellow","مكس الأجبان الصفراء",12,"🧀"]]},
-{id:"dess",e:"🍰",en:"Dessert",ar:"الحلى",i:[["Matelda Chocolate Cake","كيك ماتيلدا",23,"🍫"],["Cake Becan","كيك بيكان",23,"🍰"],["Cake Berry Coco","كيك بيري كوكو",20,"🍰"],["Cake Dolce","كيك دولشي",22,"🍰"],["Cake Cheese","كيك تشيز",22,"🧀"],["Cake Date","كيك التمر",20,"🍰"]]}
+{id:"hot",e:"☕",en:"Hot Drinks",ar:"المشروبات الساخنة",i:[
+["Espresso","إسبريسو",10,"☕","A bold, concentrated shot with a rich golden crema.","شوت مركّز وقوي بطبقة كريما ذهبية غنية."],
+["Americano","أمريكانو",10,"☕","Smooth espresso lengthened with hot water for a clean, classic cup.","إسبريسو ناعم مع الماء الساخن لكوب كلاسيكي وخفيف."],
+["Macchiato","ماكياتو",11,"☕","Espresso marked with a touch of silky steamed milk foam.","إسبريسو مع لمسة من رغوة الحليب الحريرية."],
+["Cortado","كورتادو",11,"☕","Equal parts espresso and warm milk, balanced and velvety.","إسبريسو وحليب دافئ بنسب متساوية، متوازن وناعم."],
+["Flat White","فلات وايت",12,"☕","Double espresso with creamy microfoam milk.","إسبريسو مزدوج مع حليب كريمي ناعم الرغوة."],
+["Cappuccino","كابتشينو",12,"☕","Espresso, steamed milk and a thick layer of airy foam.","إسبريسو وحليب مبخّر وطبقة رغوة كثيفة."],
+["Latte","لاتيه",12,"🥛","Espresso with plenty of steamed milk and a light foam top.","إسبريسو مع حليب مبخّر وفير ورغوة خفيفة."],
+["Spanish Latte","سبانيش لاتيه",14,"🥛","Sweet and creamy latte made with condensed milk.","لاتيه حلو وكريمي بالحليب المكثف."],
+["Caramel Latte","كراميل لاتيه",14,"🍮","Latte with buttery caramel sauce and steamed milk.","لاتيه مع صوص الكراميل والحليب المبخّر."],
+["Mocha","موكا",18,"🍫","Espresso blended with chocolate and steamed milk.","إسبريسو ممزوج بالشوكولاتة والحليب المبخّر."],
+["Hot Chocolate","هوت شوكليت",17,"🍫","Thick, comforting hot chocolate made with rich cocoa.","شوكولاتة ساخنة كثيفة ودافئة بكاكاو غني."],
+["Matcha Latte","ماتشا لاتيه",17,"🍵","Ceremonial-style matcha whisked with warm steamed milk.","ماتشا يابانية مخفوقة مع الحليب الدافئ."]]},
+{id:"ital",e:"🧊",en:"Italian Coffee",ar:"القهوة الإيطالية",i:[
+["Ice Americano","آيس أمريكانو",10,"🧊","Espresso over ice and cold water, crisp and refreshing.","إسبريسو مع الثلج والماء البارد، منعش وخفيف."],
+["Ice Latte","آيس لاتيه",13,"🧊","Chilled espresso poured over cold milk and ice.","إسبريسو مثلّج مع الحليب البارد والثلج."],
+["Ice Spanish Latte","آيس سبانيش لاتيه",14,"🧊","Iced latte sweetened with creamy condensed milk.","آيس لاتيه محلّى بالحليب المكثف الكريمي."],
+["Ice Caramel Latte","آيس كراميل لاتيه",14,"🍮","Iced latte swirled with sweet caramel sauce.","آيس لاتيه مع صوص الكراميل الحلو."],
+["Ice Shaken White Mocha","آيس موكا وايت",18,"🧊","Shaken espresso with white chocolate and cold milk.","إسبريسو مخفوق مع الشوكولاتة البيضاء والحليب البارد."],
+["Ice Mocha Latte","آيس موكا لاتيه",18,"🍫","Iced espresso, chocolate sauce and cold milk.","إسبريسو مثلّج مع صوص الشوكولاتة والحليب البارد."],
+["Frappuccino Classic","فرابوتشينو كلاسيك",18,"🥤","Blended iced coffee topped with whipped cream.","قهوة مثلّجة مخفوقة مع كريمة مخفوقة."],
+["Frappuccino Caramel","فرابوتشينو كراميل",20,"🥤","Blended coffee with caramel drizzle and whipped cream.","قهوة مخفوقة مع الكراميل والكريمة."],
+["Frappuccino Mocha","فرابوتشينو موكا",20,"🥤","Blended coffee and chocolate, finished with cream.","قهوة وشوكولاتة مخفوقتان مع الكريمة."],
+["Frappuccino White Mocha","فرابوتشينو الموكا البيضاء",22,"🥤","Creamy white chocolate frappe with whipped cream.","فرابيه كريمي بالشوكولاتة البيضاء والكريمة."],
+["Classic Matcha","ماتشا كلاسيك",17,"🍵","Iced matcha layered with cold milk.","ماتشا مثلّجة مع طبقة الحليب البارد."],
+["Matcha Strawberry","ماتشا الفراولة",20,"🍓","Iced matcha over fresh strawberry purée.","ماتشا مثلّجة فوق هريس الفراولة الطازجة."],
+["Matcha Raspberry","ماتشا التوت الأحمر",20,"🍵","Iced matcha with tangy raspberry.","ماتشا مثلّجة مع التوت الأحمر المنعش."],
+["Matcha Blueberry","ماتشا التوت الأزرق",20,"🫐","Iced matcha with sweet blueberry purée.","ماتشا مثلّجة مع هريس التوت الأزرق."]]},
+{id:"spec",e:"🫗",en:"Speciality Coffee",ar:"القهوة المختصة",i:[
+["Coffee Of The Day","قهوة اليوم",9,"☕","Today's freshly brewed selection. Ask our barista.","اختيار اليوم من القهوة الطازجة. اسأل الباريستا."],
+["V60 Ethiopia","V60 أثيوبي",14,"☕","Light and floral with bright fruity notes.","خفيف وزهري بنكهات فواكه منعشة."],
+["V60 Colombia","V60 كولومبي",14,"☕","Balanced and sweet with caramel and nutty notes.","متوازن وحلو بنكهات الكراميل والمكسرات."],
+["V60 Brazil","V60 برازيلي",14,"☕","Smooth and full-bodied with chocolate notes.","ناعم وقوام كامل بنكهة الشوكولاتة."]]},
+{id:"turk",e:"🫖",en:"Turkish Coffee",ar:"القهوة التركية",i:[
+["Coffee Turkish","قهوة تركية",10,"🫖","Traditional finely ground coffee, slowly brewed in a cezve.","قهوة تقليدية ناعمة تُحضّر ببطء في الركوة."],
+["Milk With Coffee Turkish","القهوة التركية مع الحليب",11,"🫖","Turkish coffee made creamy and mellow with milk.","قهوة تركية بالحليب بطعم كريمي هادئ."],
+["French Coffee With Hazelnut","القهوة فرنسية بالبندق",13,"🌰","Smooth French-style coffee with a nutty hazelnut touch.","قهوة فرنسية ناعمة بنكهة البندق."]]},
+{id:"saudi",e:"🏺",en:"Saudi Coffee",ar:"القهوة السعودية",i:[
+["Cup Coffee Saudi","كاسة قهوة سعودي",10,"☕","Authentic Saudi coffee with cardamom, served in a small cup.","قهوة سعودية أصيلة بالهيل تُقدّم في فنجان."],
+["Saudi Coffee Pot","دلة سعودية",25,"🫖","A full dallah to share, served the traditional way.","دلة كاملة للمشاركة تُقدّم بالطريقة التقليدية."]]},
+{id:"tea",e:"🍃",en:"Tea",ar:"الشاي",i:[
+["Red Tea","شاي أحمر",5,"🍵","Classic strong tea with a deep amber colour.","شاي أحمر كلاسيكي بلون عنبري غامق."],
+["Green Tea","شاي أخضر",5,"🍃","Light, fresh and soothing green tea.","شاي أخضر خفيف ومنعش ومهدّئ."],
+["English Tea","شاي إنجليزي",6,"🫖","Rich English breakfast blend, perfect with milk.","شاي إنجليزي غني، مثالي مع الحليب."]]},
+{id:"icet",e:"🥤",en:"Ice Tea",ar:"آيس تي",i:[
+["Hibiscus","الكركديه",5,"🌺","Chilled hibiscus infusion, tangy and refreshing.","كركديه بارد بطعم حامض منعش."],
+["Peach Ice Tea","آيس تي خوخ",12,"🍑","Iced black tea with sweet juicy peach.","شاي مثلّج بنكهة الخوخ الحلوة."],
+["Passion Fruit Ice Tea","آيس تي باشن فروت",12,"🥤","Iced tea with tropical passion fruit flavour.","شاي مثلّج بنكهة الباشن فروت الاستوائية."]]},
+{id:"moh",e:"🌿",en:"Mohito",ar:"موهيتو",i:[
+["Strawberry","فراولة",10,"🍓","Sparkling mojito with strawberry, lime and fresh mint.","موهيتو فوّار بالفراولة والليمون والنعناع."],
+["Water Melon","بطيخ",10,"🍉","Cool watermelon mojito with mint and lime.","موهيتو البطيخ المنعش مع النعناع والليمون."],
+["Pomegranate","رمان",12,"🍷","Ruby pomegranate mojito with a tart finish.","موهيتو الرمان بطعم حامض لطيف."],
+["Passion Fruit","باشن فروت",12,"🍹","Tropical passion fruit mojito, sweet and zesty.","موهيتو الباشن فروت الاستوائي، حلو ومنعش."],
+["Passion Karkade","كركديه باشن فروت",10,"🌺","Hibiscus and passion fruit mojito.","موهيتو الكركديه مع الباشن فروت."],
+["Red Berry","توت أحمر",12,"🍒","Mixed red berries muddled with mint and soda.","توت أحمر مع النعناع والصودا."],
+["Blue Berry","توت أزرق",12,"🫐","Blueberry mojito with fresh lime and mint.","موهيتو التوت الأزرق مع الليمون والنعناع."],
+["Mix Berry","مكس توت",12,"🍇","A blend of berries in a sparkling mint cooler.","مزيج من التوت في مشروب فوّار بالنعناع."]]},
+{id:"juice",e:"🍊",en:"Nature Juice",ar:"العصائر الطبيعية",i:[
+["Lemon W Mint","ليمون بالنعناع",14,"🍋","Freshly squeezed lemon blended with mint.","ليمون طازج مع النعناع."],
+["Strawberry","فراولة",15,"🍓","Fresh strawberries blended into a sweet juice.","عصير فراولة طازجة طبيعي."],
+["Mango","مانجو",15,"🥭","Thick, sweet juice from ripe mangoes.","عصير مانجو ناضجة كثيف وحلو."],
+["Pineapple","أناناس",15,"🍍","Fresh pineapple juice, sweet and tangy.","عصير أناناس طازج حلو ومنعش."],
+["Strawberry W Milk","فراولة بالحليب",17,"🍓","Creamy strawberry juice blended with milk.","عصير فراولة كريمي بالحليب."],
+["Mango W Milk","مانجو بالحليب",17,"🥭","Rich mango blended with cold milk.","مانجو غني ممزوج بالحليب البارد."]]},
+{id:"soft",e:"🥫",en:"Soft Drinks",ar:"المشروبات الغازية",i:[
+["Pepsi","بيبسي",5,"🥤","Ice-cold Pepsi.","بيبسي بارد."],
+["Diet Pepsi","بيبسي دايت",5,"🥤","Zero sugar Pepsi, served cold.","بيبسي بدون سكر، بارد."],
+["Seven Up","سفن",5,"🥤","Crisp lemon-lime soda.","مشروب غازي بنكهة الليمون."],
+["Mirinda","ميرندا",5,"🍊","Fizzy citrus soda.","مشروب غازي بنكهة الحمضيات."],
+["Code Red","كود رد",9,"🥫","Energy drink to keep you going.","مشروب طاقة لنشاطك."],
+["Water","ماء",1,"💧","Fresh drinking water.","مياه شرب."]]},
+{id:"sand",e:"🥐",en:"Sandwiches & Croissant",ar:"الساندويشات والكرواسون",i:[
+["Croissant","الكرواسون",9,"🥐","Flaky, buttery croissant baked fresh.","كرواسون مقرمش بالزبدة، طازج."],
+["Tuna Sandwich","ساندويش تونة",12,"🥪","Tuna with fresh vegetables in soft bread.","تونة مع خضار طازجة في خبز طري."],
+["Halloumi Sandwich","ساندويش الحلوم",12,"🥪","Grilled halloumi cheese with fresh veggies.","جبنة حلوم مشوية مع خضار طازجة."],
+["Fajita Sandwich","ساندويش الفاهيتا",12,"🌯","Seasoned chicken fajita with peppers and sauce.","دجاج فاهيتا متبّل مع الفلفل والصوص."],
+["Three Cheese Sandwich","ساندويش الثلاث جبن",12,"🧀","Toasted sandwich with three melted cheeses.","ساندويش محمّص بثلاثة أنواع من الجبن الذائب."],
+["Smoked Turkey Sandwich","ساندويش التركي المدخن",12,"🥪","Smoked turkey with cheese and fresh greens.","ديك رومي مدخن مع الجبن والخضار."],
+["Mix Cheese Yellow","مكس الأجبان الصفراء",12,"🧀","Toasted sandwich with a mix of yellow cheeses.","ساندويش محمّص بمزيج الأجبان الصفراء."]]},
+{id:"dess",e:"🍰",en:"Dessert",ar:"الحلى",i:[
+["Matelda Chocolate Cake","كيك ماتيلدا",23,"🍫","Rich layered chocolate cake with smooth cream.","كيك شوكولاتة غني بطبقات وكريمة ناعمة."],
+["Cake Becan","كيك بيكان",23,"🍰","Moist cake with crunchy pecans.","كيك طري مع البيكان المقرمش."],
+["Cake Berry Coco","كيك بيري كوكو",20,"🍰","Berry and coconut cake, light and fruity.","كيك التوت وجوز الهند، خفيف ومنعش."],
+["Cake Dolce","كيك دولشي",22,"🍰","A sweet, indulgent house cake.","كيك حلو وفاخر من تحضير الكافيه."],
+["Cake Cheese","كيك تشيز",22,"🧀","Creamy cheesecake with a berry topping.","تشيز كيك كريمي مع التوت."],
+["Cake Date","كيك التمر",20,"🍰","Warm, soft date cake with caramel notes.","كيك التمر الطري بنكهة الكراميل."]]}
 ];
+
 var L="en",cur=null,T={en:{sr:"SR",items:"items",ft:"Prices in Saudi Riyal (SR)",lb:"عربي",tt:"Choose a category"},ar:{sr:"ر.س",items:"صنف",ft:"الأسعار بالريال السعودي",lb:"English",tt:"اختر القسم"}};
 function slug(s){return s.toLowerCase().replace(/[^a-z0-9]+/g,"-")}
-function catImg(c){return '<img alt="'+c.en+'" loading="lazy" src="images/categories/'+c.id+'.jpg" onerror="this.parentNode.textContent=\''+c.e+'\'">'}
-function itImg(k,e){return ITEMPH.indexOf(k)>-1?'<img alt="" loading="lazy" src="images/items/'+k+'.jpg">':e}
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;")}
+function catImg(c){return '<img alt="'+esc(c.en)+'" loading="lazy" src="images/categories/'+c.id+'.jpg" onerror="this.parentNode.textContent=\''+c.e+'\'">'}
 function render(){
  var t=T[L],h="";
  document.documentElement.lang=L;document.documentElement.dir=L=="ar"?"rtl":"ltr";
  document.getElementById("lb").textContent=t.lb;document.getElementById("ft").textContent=t.ft;
- document.getElementById("tt").textContent=cur===null?t.tt:"";document.getElementById("tt").style.display=cur===null?"flex":"none";
+ var tt=document.getElementById("tt");tt.textContent=cur===null?t.tt:"";tt.style.display=cur===null?"flex":"none";
  if(cur===null){
   h='<div class="grid">'+C.map(function(c,n){return '<button class="cat" onclick="openCat('+n+')"><div class="ph">'+catImg(c)+'</div><b>'+c[L]+'</b><small>'+c.i.length+' '+t.items+'</small></button>'}).join("")+'</div>';
  }else{
   var c=C[cur];
   h='<div class="top"><button class="back" onclick="openCat(null)">\u2190</button><h2>'+c[L]+'</h2></div><div class="banner">'+catImg(c)+'</div>'+c.i.map(function(x){
-   var o=L=="ar"?x[1]:x[0],s=L=="ar"?x[0]:x[1];
-   return '<div class="item"><div class="thumb">'+itImg(c.id+"-"+slug(x[0]),x[3])+'</div><div class="nm"><b>'+o+'</b><span>'+s+'</span></div><div class="pr">'+x[2]+' '+t.sr+'</div></div>'}).join("");
+   var k=c.id+"-"+slug(x[0]),has=ITEMPH.indexOf(k)>-1,o=L=="ar"?x[1]:x[0],s=L=="ar"?x[0]:x[1],d=L=="ar"?x[5]:x[4];
+   var th=has?'<button class="thumb" onclick="zoom(\''+k+'\','+cur+',\''+esc(x[0]).replace(/'/g,"\\'")+'\')"><img alt="'+esc(o)+'" loading="lazy" src="images/items/'+k+'.jpg"></button>':'<div class="thumb noz">'+x[3]+'</div>';
+   return '<div class="item">'+th+'<div class="nm"><b>'+o+'</b><span>'+s+'</span><p>'+d+'</p><div class="pr">'+x[2]+' '+t.sr+'</div></div></div>'}).join("");
  }
  document.getElementById("app").innerHTML=h;
 }
+function zoom(k,ci,en){var x=C[ci].i.filter(function(i){return i[0]==en})[0];document.getElementById("lbi").src="images/items/"+k+".jpg";document.getElementById("lbt").textContent=(L=="ar"?x[1]:x[0])+" · "+x[2]+" "+T[L].sr;document.getElementById("lb2").classList.add("on")}
 function openCat(n){cur=n;render();window.scrollTo(0,0)}
+function pickLang(l){L=l;render();document.getElementById("welcome").classList.add("hide");document.body.classList.remove("lock")}
 document.getElementById("lb").onclick=function(){L=L=="en"?"ar":"en";render()};
 render();
 </script>
