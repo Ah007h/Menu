@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Wabel Café Menu | منيو وابل كافي</title>
+<style>
+:root{--bg:#f3f5f7;--card:#fff;--navy:#1f4a76;--navy2:#2c6094;--ink:#17314f;--mut:#6b7f95;--line:#dbe3ea;--soft:#e4ecf4}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1c2b;--card:#17283b;--navy:#7fb0e0;--ink:#e8eff6;--mut:#9db0c4;--line:#27405a;--soft:#1f3550}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Segoe UI",Tahoma,"Noto Naskh Arabic",Arial,sans-serif;min-height:100vh}
+.hero{background:linear-gradient(160deg,#1f4a76,#2c6094);color:#fff;text-align:center;padding:calc(30px + env(safe-area-inset-top,0px)) 16px 64px;position:relative}
+.hero svg{position:absolute;bottom:-1px;left:0;width:100%;height:44px;display:block}
+.hero svg path{fill:var(--bg)}
+.logo{font-size:52px;font-weight:800;line-height:1.1}
+.sub{letter-spacing:.4em;font-size:12px;opacity:.85;margin-top:2px}
+.rule{width:70px;height:2px;background:#fff;opacity:.6;margin:14px auto}
+.tag{font-size:18px;font-weight:600}
+.tag2{font-size:11px;letter-spacing:.35em;opacity:.8;margin-top:6px}
+.lang{position:absolute;top:calc(12px + env(safe-area-inset-top,0px));inset-inline-end:14px;border:1px solid #fff;color:#fff;background:rgba(255,255,255,.12);border-radius:20px;padding:6px 14px;font-weight:600;cursor:pointer;font-family:inherit}
+.wrap{max-width:720px;margin:0 auto;padding:0 16px 24px}
+.ttl{display:flex;align-items:center;gap:12px;color:var(--navy);font-weight:700;margin:6px 0 4px}
+.ttl:before,.ttl:after{content:"";flex:1;height:1px;background:var(--line)}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:14px}
+@media(min-width:600px){.grid{grid-template-columns:repeat(3,1fr)}}
+.cat{background:var(--card);border:1px solid var(--line);border-bottom:4px solid var(--navy);border-radius:18px;padding:0;cursor:pointer;overflow:hidden;text-align:center;color:var(--ink);font:inherit;box-shadow:0 4px 14px rgba(31,74,118,.08);transition:transform .15s}
+.cat:active{transform:scale(.97)}
+.ph{aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;font-size:44px;background:var(--soft);overflow:hidden}
+.ph img,.thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.cat b{display:block;padding:10px 6px 2px;color:var(--navy);font-size:15px}
+.cat small{display:block;padding:0 6px 12px;color:var(--mut);font-size:12px}
+.top{display:flex;align-items:center;gap:10px;padding:20px 0 6px}
+.back{border:0;background:var(--navy);color:var(--bg);border-radius:50%;width:38px;height:38px;font-size:18px;cursor:pointer}
+html[dir=rtl] .back{transform:scaleX(-1)}
+h2{margin:0;font-size:22px;color:var(--navy)}
+.banner{height:140px;border-radius:18px;overflow:hidden;margin:6px 0 4px;border-bottom:4px solid var(--navy)}
+.banner img{width:100%;height:100%;object-fit:cover;display:block}
+.item{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px;margin-top:10px}
+.thumb{width:64px;height:64px;border-radius:12px;background:var(--soft);display:flex;align-items:center;justify-content:center;font-size:30px;overflow:hidden;flex:none}
+.nm{flex:1;min-width:0}.nm b{display:block;font-size:15px}.nm span{font-size:12px;color:var(--mut)}
+.pr{background:var(--navy);color:var(--bg);font-weight:700;border-radius:8px;padding:5px 10px;font-size:14px;white-space:nowrap}
+footer{background:#1f4a76;color:#fff;text-align:center;padding:34px 16px calc(24px + env(safe-area-inset-bottom,0px));position:relative;margin-top:40px;font-size:13px;line-height:1.9}
+footer svg{position:absolute;top:-1px;left:0;width:100%;height:30px;display:block;transform:rotate(180deg)}
+footer svg path{fill:var(--bg)}
+footer .l{font-size:30px;font-weight:800}
+footer small{opacity:.8}
+</style>
+</head>
+<body>
+<div class="hero">
+<button class="lang" id="lb"></button>
+<div class="logo">وابل</div>
+<div class="sub">WABEL CAFÉ</div>
+<div class="rule"></div>
+<div class="tag">نكهة تعبر عنك</div>
+<div class="tag2">GOOD COFFEE BETTER DAYS</div>
+<svg viewBox="0 0 400 44" preserveAspectRatio="none"><path d="M0 44V22C60 0 120 0 200 18S340 40 400 14V44Z"/></svg>
+</div>
+<div class="wrap"><div class="ttl" id="tt"></div><main id="app"></main></div>
+<footer>
+<svg viewBox="0 0 400 30" preserveAspectRatio="none"><path d="M0 30V14C80 36 150 0 230 14S340 30 400 8V30Z"/></svg>
+<div class="l">وابل كافي</div>
+<div>@wabel.cafe</div>
+<small id="ft"></small>
+</footer>
+<script>
+// Category photos: images/categories/<id>.jpg
+// Item photos: put files in images/items/ named <categoryId>-<item-name>.jpg and list the name in ITEMPH below
+var ITEMPH=[];
+var C=[
+{id:"hot",e:"☕",en:"Hot Drinks",ar:"المشروبات الساخنة",i:[["Espresso","إسبريسو",10,"☕"],["Americano","أمريكانو",10,"☕"],["Macchiato","ماكياتو",11,"☕"],["Cortado","كورتادو",11,"☕"],["Flat White","فلات وايت",12,"☕"],["Cappuccino","كابتشينو",12,"☕"],["Latte","لاتيه",12,"🥛"],["Spanish Latte","سبانيش لاتيه",14,"🥛"],["Caramel Latte","كراميل لاتيه",14,"🍮"],["Mocha","موكا",18,"🍫"],["Hot Chocolate","هوت شوكليت",17,"🍫"],["Matcha Latte","ماتشا لاتيه",17,"🍵"]]},
+{id:"ital",e:"🧊",en:"Italian Coffee",ar:"القهوة الإيطالية",i:[["Ice Americano","آيس أمريكانو",10,"🧊"],["Ice Latte","آيس لاتيه",13,"🧊"],["Ice Spanish Latte","آيس سبانيش لاتيه",14,"🧊"],["Ice Caramel Latte","آيس كراميل لاتيه",14,"🍮"],["Ice Shaken White Mocha","آيس موكا وايت",18,"🧊"],["Ice Mocha Latte","آيس موكا لاتيه",18,"🍫"],["Frappuccino Classic","فرابوتشينو كلاسيك",18,"🥤"],["Frappuccino Caramel","فرابوتشينو كراميل",20,"🥤"],["Frappuccino Mocha","فرابوتشينو موكا",20,"🥤"],["Frappuccino White Mocha","فرابوتشينو الموكا البيضاء",22,"🥤"],["Classic Matcha","ماتشا كلاسيك",17,"🍵"],["Matcha Strawberry","ماتشا الفراولة",20,"🍓"],["Matcha Raspberry","ماتشا التوت الأحمر",20,"🍵"],["Matcha Blueberry","ماتشا التوت الأزرق",20,"🫐"]]},
+{id:"spec",e:"🫗",en:"Speciality Coffee",ar:"القهوة المختصة",i:[["Coffee Of The Day","قهوة اليوم",9,"☕"],["V60 Ethiopia","V60 أثيوبي",14,"☕"],["V60 Colombia","V60 كولومبي",14,"☕"],["V60 Brazil","V60 برازيلي",14,"☕"]]},
+{id:"turk",e:"🫖",en:"Turkish Coffee",ar:"القهوة التركية",i:[["Coffee Turkish","قهوة تركية",10,"🫖"],["Milk With Coffee Turkish","القهوة التركية مع الحليب",11,"🫖"],["French Coffee With Hazelnut","القهوة فرنسية بالبندق",13,"🌰"]]},
+{id:"saudi",e:"🏺",en:"Saudi Coffee",ar:"القهوة السعودية",i:[["Cup Coffee Saudi","كاسة قهوة سعودي",10,"☕"],["Saudi Coffee Pot","دلة سعودية",25,"🫖"]]},
+{id:"tea",e:"🍃",en:"Tea",ar:"الشاي",i:[["Red Tea","شاي أحمر",5,"🍵"],["Green Tea","شاي أخضر",5,"🍃"],["English Tea","شاي إنجليزي",6,"🫖"]]},
+{id:"icet",e:"🥤",en:"Ice Tea",ar:"آيس تي",i:[["Hibiscus","الكركديه",5,"🌺"],["Peach Ice Tea","آيس تي خوخ",12,"🍑"],["Passion Fruit Ice Tea","آيس تي باشن فروت",12,"🥤"]]},
+{id:"moh",e:"🌿",en:"Mohito",ar:"موهيتو",i:[["Strawberry","فراولة",10,"🍓"],["Water Melon","بطيخ",10,"🍉"],["Pomegranate","رمان",12,"🍷"],["Passion Fruit","باشن فروت",12,"🍹"],["Passion Karkade","كركديه باشن فروت",10,"🌺"],["Red Berry","توت أحمر",12,"🍒"],["Blue Berry","توت أزرق",12,"🫐"],["Mix Berry","مكس توت",12,"🍇"]]},
+{id:"juice",e:"🍊",en:"Nature Juice",ar:"العصائر الطبيعية",i:[["Lemon W Mint","ليمون بالنعناع",14,"🍋"],["Strawberry","فراولة",15,"🍓"],["Mango","مانجو",15,"🥭"],["Pineapple","أناناس",15,"🍍"],["Strawberry W Milk","فراولة بالحليب",17,"🍓"],["Mango W Milk","مانجو بالحليب",17,"🥭"]]},
+{id:"soft",e:"🥫",en:"Soft Drinks",ar:"المشروبات الغازية",i:[["Pepsi","بيبسي",5,"🥤"],["Diet Pepsi","بيبسي دايت",5,"🥤"],["Seven Up","سفن",5,"🥤"],["Mirinda","ميرندا",5,"🍊"],["Code Red","كود رد",9,"🥫"],["Water","ماء",1,"💧"]]},
+{id:"sand",e:"🥐",en:"Sandwiches & Croissant",ar:"الساندويشات والكرواسون",i:[["Croissant","الكرواسون",9,"🥐"],["Tuna Sandwich","ساندويش تونة",12,"🥪"],["Halloumi Sandwich","ساندويش الحلوم",12,"🥪"],["Fajita Sandwich","ساندويش الفاهيتا",12,"🌯"],["Three Cheese Sandwich","ساندويش الثلاث جبن",12,"🧀"],["Smoked Turkey Sandwich","ساندويش التركي المدخن",12,"🥪"],["Mix Cheese Yellow","مكس الأجبان الصفراء",12,"🧀"]]},
+{id:"dess",e:"🍰",en:"Dessert",ar:"الحلى",i:[["Matelda Chocolate Cake","كيك ماتيلدا",23,"🍫"],["Cake Becan","كيك بيكان",23,"🍰"],["Cake Berry Coco","كيك بيري كوكو",20,"🍰"],["Cake Dolce","كيك دولشي",22,"🍰"],["Cake Cheese","كيك تشيز",22,"🧀"],["Cake Date","كيك التمر",20,"🍰"]]}
+];
+var L="en",cur=null,T={en:{sr:"SR",items:"items",ft:"Prices in Saudi Riyal (SR)",lb:"عربي",tt:"Choose a category"},ar:{sr:"ر.س",items:"صنف",ft:"الأسعار بالريال السعودي",lb:"English",tt:"اختر القسم"}};
+function slug(s){return s.toLowerCase().replace(/[^a-z0-9]+/g,"-")}
+function catImg(c){return '<img alt="'+c.en+'" loading="lazy" src="images/categories/'+c.id+'.jpg" onerror="this.parentNode.textContent=\''+c.e+'\'">'}
+function itImg(k,e){return ITEMPH.indexOf(k)>-1?'<img alt="" loading="lazy" src="images/items/'+k+'.jpg">':e}
+function render(){
+ var t=T[L],h="";
+ document.documentElement.lang=L;document.documentElement.dir=L=="ar"?"rtl":"ltr";
+ document.getElementById("lb").textContent=t.lb;document.getElementById("ft").textContent=t.ft;
+ document.getElementById("tt").textContent=cur===null?t.tt:"";document.getElementById("tt").style.display=cur===null?"flex":"none";
+ if(cur===null){
+  h='<div class="grid">'+C.map(function(c,n){return '<button class="cat" onclick="openCat('+n+')"><div class="ph">'+catImg(c)+'</div><b>'+c[L]+'</b><small>'+c.i.length+' '+t.items+'</small></button>'}).join("")+'</div>';
+ }else{
+  var c=C[cur];
+  h='<div class="top"><button class="back" onclick="openCat(null)">\u2190</button><h2>'+c[L]+'</h2></div><div class="banner">'+catImg(c)+'</div>'+c.i.map(function(x){
+   var o=L=="ar"?x[1]:x[0],s=L=="ar"?x[0]:x[1];
+   return '<div class="item"><div class="thumb">'+itImg(c.id+"-"+slug(x[0]),x[3])+'</div><div class="nm"><b>'+o+'</b><span>'+s+'</span></div><div class="pr">'+x[2]+' '+t.sr+'</div></div>'}).join("");
+ }
+ document.getElementById("app").innerHTML=h;
+}
+function openCat(n){cur=n;render();window.scrollTo(0,0)}
+document.getElementById("lb").onclick=function(){L=L=="en"?"ar":"en";render()};
+render();
+</script>
+</body>
+</html>
